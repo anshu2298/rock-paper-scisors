@@ -269,6 +269,24 @@ body {
   margin-bottom: 50px;
 }
 
+/* Next Button  */
+
+.next-btn {
+  position: fixed;
+  display: none;
+  bottom: 20px;
+  right: 150px;
+  background: #89c15e;
+  border: solid white 2px;
+  padding: 10px 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
 /* Rules button and modal */
 
 .rules-btn {

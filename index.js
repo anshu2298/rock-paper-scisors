@@ -10,11 +10,10 @@ const gameDiagram = document.getElementById("game-diagram");
 const gameResult = document.getElementById("game-results");
 const playAgain = document.getElementById("play-again");
 const gameRestart = document.getElementById("game-restart");
+const nextBtn = document.getElementById("next-btn");
 const winnerScreen =
   document.getElementById("winner-screen");
-const winnerSubtext = document.getElementById(
-  "winner-subtext"
-);
+
 const gameHeader = document.getElementById("game-header");
 const playerScoreDisplay =
   document.getElementById("player-score");
@@ -88,6 +87,14 @@ const determineWinner = (playerChoice, computerChoice) => {
 const handelPlayAgain = () => {
   gameDiagram.style.display = "flex";
   gameResult.style.display = "none";
+  nextBtn.style.display = "none";
+};
+
+const handelNext = () => {
+  gameHeader.style.display = "none";
+  gameResult.style.display = "none";
+  winnerScreen.style.display = "flex";
+  nextBtn.style.display = "none";
 };
 
 const handelClick = (event) => {
@@ -132,24 +139,13 @@ const handelClick = (event) => {
 
   if (result === "You win") {
     playerCircle.classList.add("glow");
+    nextBtn.style.display = "block";
   } else if (result === "You Lost") {
     computerCircle.classList.add("glow");
   }
 
   playerScoreDisplay.innerHTML = `${playerScore}`;
   computerScoreDisplay.innerHTML = `${computerScore}`;
-
-  if (playerScore === 15 || computerScore === 15) {
-    gameHeader.style.display = "none";
-    gameResult.style.display = "none";
-    winnerScreen.style.display = "flex";
-
-    if (playerScore > computerScore) {
-      winnerSubtext.innerHTML = "You won the game";
-    } else {
-      winnerSubtext.innerHTML = "Computer won the game";
-    }
-  }
 };
 
 rock.addEventListener("click", handelClick);
@@ -157,6 +153,7 @@ paper.addEventListener("click", handelClick);
 scissors.addEventListener("click", handelClick);
 gameRestart.addEventListener("click", heandleRestart);
 playAgain.addEventListener("click", handelPlayAgain);
+nextBtn.addEventListener("click", handelNext);
 
 rulesBtn.addEventListener("click", () => {
   rulesModal.style.display = "block";
