@@ -1,20 +1,24 @@
 const rock = document.getElementById("rock");
 const paper = document.getElementById("paper");
 const scissors = document.getElementById("scissors");
+
 const subText = document.getElementById("sub-text");
 const resultText = document.getElementById("result-text");
+
 const rulesBtn = document.getElementById("rules_btn");
 const rulesModal = document.getElementById("rules_modal");
 const closeBtn = document.getElementById("close_btn");
+
 const gameDiagram = document.getElementById("game-diagram");
 const gameResult = document.getElementById("game-results");
 const playAgain = document.getElementById("play-again");
 const gameRestart = document.getElementById("game-restart");
 const nextBtn = document.getElementById("next-btn");
+
 const winnerScreen =
   document.getElementById("winner-screen");
-
 const gameHeader = document.getElementById("game-header");
+
 const playerScoreDisplay =
   document.getElementById("player-score");
 const computerScoreDisplay = document.getElementById(
@@ -29,12 +33,12 @@ const computerChoiceDisplay = document.getElementById(
 let playerScore = 0;
 let computerScore = 0;
 
-const heandleRestart = () => {
+const handleRestart = () => {
   playerScore = 0;
   computerScore = 0;
 
-  playerScoreDisplay.innerHTML = `${playerScore}`;
-  computerScoreDisplay.innerHTML = `${computerScore}`;
+  playerScoreDisplay.textContent = playerScore;
+  computerScoreDisplay.textContent = computerScore;
 
   gameHeader.style.display = "flex";
   winnerScreen.style.display = "none";
@@ -53,80 +57,59 @@ const determineWinner = (playerChoice, computerChoice) => {
     return "Tie Up";
   }
 
-  if (playerChoice === "rock") {
-    if (computerChoice === "scissors") {
-      playerScore++;
-      return "You win";
-    } else {
-      computerScore++;
-      return "You Lost";
-    }
-  }
+  const winConditions = {
+    rock: "scissors",
+    scissors: "paper",
+    paper: "rock",
+  };
 
-  if (playerChoice === "scissors") {
-    if (computerChoice === "paper") {
-      playerScore++;
-      return "You win";
-    } else {
-      computerScore++;
-      return "You Lost";
-    }
-  }
-
-  if (playerChoice === "paper") {
-    if (computerChoice === "rock") {
-      playerScore++;
-      return "You win";
-    } else {
-      computerScore++;
-      return "You Lost";
-    }
+  if (winConditions[playerChoice] === computerChoice) {
+    playerScore++;
+    return "You win";
+  } else {
+    computerScore++;
+    return "You Lost";
   }
 };
 
-const handelPlayAgain = () => {
+const handlePlayAgain = () => {
   gameDiagram.style.display = "flex";
   gameResult.style.display = "none";
   nextBtn.style.display = "none";
 };
 
-const handelNext = () => {
+const handleNext = () => {
   gameHeader.style.display = "none";
   gameResult.style.display = "none";
   winnerScreen.style.display = "flex";
   nextBtn.style.display = "none";
 };
 
-const handelClick = (event) => {
-  const randomNo = Math.floor(Math.random() * 3);
+const renderChoice = (choice, target) => {
+  target.innerHTML = `
+    <div id="${choice}" class="choice-circle ${choice}">
+      <img src="../images/${choice}.png" />
+    </div>
+  `;
+};
+
+const handleClick = (event) => {
   const options = ["rock", "paper", "scissors"];
   const playerChoice = event.currentTarget.id;
-  const computerChoice = options[randomNo];
+  const computerChoice =
+    options[Math.floor(Math.random() * 3)];
 
   const result = determineWinner(
     playerChoice,
     computerChoice
   );
-  resultText.innerHTML = `${result}`;
+  resultText.innerHTML = result;
 
   gameDiagram.style.display = "none";
   gameResult.style.display = "flex";
 
-  if (playerChoice === "rock") {
-    playerChoiceDisplay.innerHTML = `<div id="rock" class="choice-circle rock"><img src="../images/rock.png" /></div>`;
-  } else if (playerChoice === "paper") {
-    playerChoiceDisplay.innerHTML = `<div id="paper" class="choice-circle paper"><img src="../images/paper.png" /></div>`;
-  } else if (playerChoice === "scissors") {
-    playerChoiceDisplay.innerHTML = `<div id="scissors" class="choice-circle scissors"><img src="../images/scissors.png" /></div>`;
-  }
-
-  if (computerChoice === "rock") {
-    computerChoiceDisplay.innerHTML = `<div id="rock" class="choice-circle rock"><img src="../images/rock.png" /></div>`;
-  } else if (computerChoice === "paper") {
-    computerChoiceDisplay.innerHTML = `<div id="paper" class="choice-circle paper"><img src="../images/paper.png" /></div>`;
-  } else if (computerChoice === "scissors") {
-    computerChoiceDisplay.innerHTML = `<div id="scissors" class="choice-circle scissors"><img src="../images/scissors.png" /></div>`;
-  }
+  renderChoice(playerChoice, playerChoiceDisplay);
+  renderChoice(computerChoice, computerChoiceDisplay);
 
   const playerCircle = playerChoiceDisplay.querySelector(
     ".choice-circle"
@@ -144,16 +127,16 @@ const handelClick = (event) => {
     computerCircle.classList.add("glow");
   }
 
-  playerScoreDisplay.innerHTML = `${playerScore}`;
-  computerScoreDisplay.innerHTML = `${computerScore}`;
+  playerScoreDisplay.textContent = playerScore;
+  computerScoreDisplay.textContent = computerScore;
 };
 
-rock.addEventListener("click", handelClick);
-paper.addEventListener("click", handelClick);
-scissors.addEventListener("click", handelClick);
-gameRestart.addEventListener("click", heandleRestart);
-playAgain.addEventListener("click", handelPlayAgain);
-nextBtn.addEventListener("click", handelNext);
+rock.addEventListener("click", handleClick);
+paper.addEventListener("click", handleClick);
+scissors.addEventListener("click", handleClick);
+gameRestart.addEventListener("click", handleRestart);
+playAgain.addEventListener("click", handlePlayAgain);
+nextBtn.addEventListener("click", handleNext);
 
 rulesBtn.addEventListener("click", () => {
   rulesModal.style.display = "block";
